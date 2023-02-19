@@ -11,7 +11,7 @@ public:
     Week(std::string pweek_name);
     ~Week();
     std::string get_week_name() const;
-    virtual void generate_practice_sheet(const int problem_type, const bool solution_sheet = false) const = 0;
+    virtual void generate_practice_sheet(const int problem_type, const bool solution_sheet = false, const int number_of_questions = 10) const = 0;
 };
 
 #endif // WEEK_HPP
