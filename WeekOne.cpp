@@ -16,7 +16,7 @@ int WeekOne::remainder(const int a, const int m) const
     return a % m;
 }
 
-bool WeekOne::is_divisible(int a, int b, bool show_text) {
+bool WeekOne::is_divisible(int a, int b, bool show_text) const {
     /*Checks if a | b*/
     if (show_text)
     {
@@ -115,10 +115,10 @@ void WeekOne::generate_practice_sheet(const int problem_type, const bool solutio
     switch (t)
     {
         case Type::Remainder:
-            remainder_practice_sheet("Remainder", solution_sheet, 10);
+            remainder_practice_sheet("Remainder", solution_sheet, number_of_questions);
             break;
         case Type::Divisibility:
-            //divsibility_practice_sheet("Divisibility", solution_sheet);
+            divsibility_practice_sheet("Divisibility", solution_sheet, number_of_questions);
             break;
         case Type::GCD:
             //gcd_practice_sheet("GCD", solution_sheet);
@@ -128,9 +128,11 @@ void WeekOne::generate_practice_sheet(const int problem_type, const bool solutio
     }
 }
 
-void WeekOne::remainder_practice_sheet(const std::string problem_type, const bool solution_sheet, const int number_of_questions) const {
+void WeekOne::remainder_practice_sheet(const std::string problem_type, const bool solution_sheet, const int number_of_questions) const
+{
     /**
      * @brief   Creates requested set of number sets and calls functions for practice and solution pdf generation
+     * Sheet Type:  Remainder
      * @param   problem_type:   requested problem type for generation
      * @param   solution_sheet: flag for requesting a solution sheet (default false)
      * @param   number_of_questions:    number of questions requested by the user
@@ -163,6 +165,7 @@ void WeekOne::remainder_practice(const std::string problem_type, const std::vect
 {
     /**
      * @brief   Appends appropriate text for practice sheet and generates PDF upon completion
+     * Practice Type:   Remainder
      * @param   problem_type:   requested problem type for generation (used for title)
      * @param   question_set:   set of numbers used to create questions
     */
@@ -175,6 +178,7 @@ void WeekOne::remainder_practice(const std::string problem_type, const std::vect
     setup(file_name);
     
     // Begin tex file appendages
+    write_to_file(file_name, "Find the remainder for the following questions:");
     write_to_file(file_name, "\\begin{enumerate}\n");
     
     for (const auto &i : question_set)
@@ -196,6 +200,7 @@ void WeekOne::remainder_solutions(const std::string problem_type, const std::vec
 {
     /**
      * @brief   Appends appropriate text for solution sheet and generates PDF upon completion
+     * Solution Type:   Remainder
      * @param   problem_type:   requested problem type for generation (used for title)
      * @param   question_set:   set of numbers used to create answers
     */
@@ -212,6 +217,111 @@ void WeekOne::remainder_solutions(const std::string problem_type, const std::vec
     for (const auto &i : question_set)
     {
         to_file << "\\item " << remainder(i.first, i.second) << "\n";
+    }
+    
+    write_to_file(file_name, to_file.str());
+    
+    // Complete tex file
+    write_to_file(file_name, "\\end{enumerate}\n");
+    finalize_file(file_name);
+    
+    generate_pdf_file(file_name);
+    open_pdf_file(file_name);
+}
+
+void WeekOne::divsibility_practice_sheet(const std::string problem_type, const bool solution_sheet, const int number_of_questions) const
+{
+    /**
+     * @brief   Creates requested set of number sets and calls functions for practice and solution pdf generation
+     * Sheet Type:  Divisibility
+     * @param   problem_type:   requested problem type for generation
+     * @param   solution_sheet: flag for requesting a solution sheet (default false)
+     * @param   number_of_questions:    number of questions requested by the user
+    */
+    
+    // Setup random number generation
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> large(0,100);
+    std::uniform_int_distribution<int> small(500,1000);
+    
+    // Setup set of nums to be used in practice (and solutions if requested)
+    std::vector<std::pair<int,int>> number_set;
+    for (int i = 0; i < number_of_questions; i++)
+    {
+        number_set.emplace_back(std::make_pair(large(gen), small(gen)));
+    }
+    
+    // Create practice sheet
+    divisibility_practice(problem_type, number_set);
+    
+    // Create solution sheet with same set of numbers upon request
+    if (solution_sheet)
+    {
+        divisibility_solutions(problem_type, number_set);
+    }
+
+}
+
+void WeekOne::divisibility_practice(const std::string problem_type, const std::vector<std::pair<int, int>>& question_set) const
+{
+    /**
+     * @brief   Appends appropriate text for practice sheet and generates PDF upon completion
+     * Practice Type:   Divisibility
+     * @param   problem_type:   requested problem type for generation (used for title)
+     * @param   question_set:   set of numbers used to create questions
+    */
+    
+    // Setup output stream for tex file
+    std::stringstream to_file;
+    
+    // Initializes name for tex and pdf file and sets them up
+    std::string file_name = get_week_name() + "_" + problem_type + "_Practice";
+    setup(file_name);
+    
+    // Begin tex file appendages
+    write_to_file(file_name, "Please indicate whether the following statements are True or False:");
+    write_to_file(file_name, "\\begin{enumerate}\n");
+    
+    for (const auto &i : question_set)
+    {
+        to_file << "\\item " << "\\("<< i.first << " \\mid " << i.second << "\\)"<< "\n";
+    }
+    
+    write_to_file(file_name, to_file.str());
+    
+    // Complete tex file
+    write_to_file(file_name, "\\end{enumerate}\n");
+    finalize_file(file_name);
+    
+    generate_pdf_file(file_name);
+    open_pdf_file(file_name);
+}
+void WeekOne::divisibility_solutions(const std::string problem_type, const std::vector<std::pair<int, int>>& question_set) const
+{
+    /**
+     * @brief   Appends appropriate text for practice sheet and generates PDF upon completion
+     * Solution Type:   Divisibility
+     * @param   problem_type:   requested problem type for generation (used for title)
+     * @param   question_set:   set of numbers used to create questions
+    */
+    
+    // Setup output stream for tex file
+    std::stringstream to_file;
+    
+    // Initializes name for tex and pdf file and sets them up
+    std::string file_name = get_week_name() + "_" + problem_type + "_Solutions";
+    setup(file_name);
+    
+    // Begin tex file appendages
+    write_to_file(file_name, "\\begin{enumerate}\n");
+    
+    for (const auto &i : question_set)
+    {
+        
+        to_file << "\\item ";
+        (is_divisible(i.first, i.second, false)) ? (to_file << " True ") : (to_file << " False ");
+        to_file << "\n";
     }
     
     write_to_file(file_name, to_file.str());

@@ -72,7 +72,6 @@ void Latex::initialize_file(const std::string file_name) const
 std::string Latex::reformat_title(std::string file_name) const
 {
     std::replace(file_name.begin(), file_name.end(), '_', ' ');
-    std::cout << "=========================" << file_name << std::endl;
     return file_name;
 }
 
