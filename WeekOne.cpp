@@ -1,7 +1,7 @@
 #include "WeekOne.hpp"
 #include <iostream>
-#include <random>
 #include <sstream>
+#include <random>
 
 WeekOne::WeekOne() : Week("Week_One")
 {
@@ -18,27 +18,15 @@ int WeekOne::remainder(const int a, const int m) const
 
 bool WeekOne::is_divisible(int a, int b, bool show_text) const {
     /*Checks if a | b*/
-    if (show_text)
-    {
-        std::cout << "Let a,b\u2208\u2124 where a = " << a << ", b = " << b << "\n";
-        std::cout << "a\u2223b if and only if \u2203 an integer c such that\n";
-        std::cout << "ac=b\n";
-    }
-    
     if (b % a == 0) {
-        if (show_text)
-        {
-            int c = b / a;
-            std::cout << "Since \u2203 an integer c=" << c << ",\n";
-            std::cout << a << "\u2223"<< b << ".\n";
-        }
         return true;
     }
-    if (show_text)
-    {
-        std::cout << a << "\u2223\u0338" << b << '\n';
-    }
     return false;
+}
+
+int WeekOne::integer_c(const int a, const int b) const
+{
+    return b / a;
 }
 
 int WeekOne::greatest_common_divisor(const int a, const int b, const bool show_process, const bool show_explanation) {
@@ -242,7 +230,7 @@ void WeekOne::divsibility_practice_sheet(const std::string problem_type, const b
     // Setup random number generation
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> large(0,100);
+    std::uniform_int_distribution<int> large(1,20);
     std::uniform_int_distribution<int> small(500,1000);
     
     // Setup set of nums to be used in practice (and solutions if requested)
@@ -318,13 +306,17 @@ void WeekOne::divisibility_solutions(const std::string problem_type, const std::
     
     for (const auto &i : question_set)
     {
-        
         to_file << "\\item ";
-        (is_divisible(i.first, i.second, false)) ? (to_file << " True ") : (to_file << " False ");
-        to_file << "\n";
+        const bool check_condition = is_divisible(i.first, i.second, false);
+        (check_condition) ? (to_file << " True \\\\") : (to_file << " False \\\\");
+        to_file << "Let $a, b \\in \\mathbb{Z}$ where $a = " << i.first << ", b = " << i.second << "$.\\\\ ";
+        to_file << "$a \\mid b$ if and only if $\\exists$ an integer such that $ac=b$.\\\\";
+        (check_condition) ? (to_file << "Since $\\exists$ an integer $c = " <<  integer_c(i.first, i.second) << "$, ") : (to_file << "There is no integer c that meets the conditions.");
+        (check_condition) ? (to_file << i.first << "$\\mid$" << i.second << "\n") : (to_file << "\n");
+        write_to_file(file_name, to_file.str());
+        // Clear string to avoid large string size
+        to_file.str(std::string());
     }
-    
-    write_to_file(file_name, to_file.str());
     
     // Complete tex file
     write_to_file(file_name, "\\end{enumerate}\n");

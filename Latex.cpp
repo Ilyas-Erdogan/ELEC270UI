@@ -64,7 +64,7 @@ void Latex::initialize_file(const std::string file_name) const
         tex_file << "\\documentclass{article}\n";
         tex_file << "\\title{" << reformat_title(file_name) << "}\n";
         tex_file << "\\author{}\n\\date{}\n";
-        tex_file << "\\usepackage[utf8]{inputenc}\n\\begin{document}\n\\maketitle\n";
+        tex_file << "\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb}\n\\begin{document}\n\\maketitle\n";
         tex_file.close();
     }
 }
