@@ -12,4 +12,4 @@ __Legend:__
 | :---: | :---: | :---: | :---: |
 | Remainder | ✅ | ✅ | ❌ |
 | Divisibility | ✅ | ✅ | ✅ |
-| GCD (Euclidean) | ➖ | ➖ | ➖ |
+| GCD (Euclidean) | ✅ | ✅ | ✅ |
