@@ -13,4 +13,4 @@ __Legend:__
 | Remainder | ✅ | ✅ | ❌ |
 | Divisibility | ✅ | ✅ | ✅ |
 | GCD (Euclidean) | ✅ | ✅ | ✅ |
-| Inverse (Linear Congruence) | ➖ | ➖ | ➖ |
+| Inverse (Linear Congruence) | ✅ | ➖ | ➖ |
