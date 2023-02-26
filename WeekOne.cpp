@@ -1,7 +1,5 @@
 #include "WeekOne.hpp"
-#include <iostream>
-#include <sstream>
-#include <random>
+
 
 WeekOne::WeekOne() : Week("Week_One")
 {

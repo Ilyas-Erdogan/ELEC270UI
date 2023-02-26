@@ -1,9 +1,9 @@
 #include <iostream>
-#include "WeekOne.hpp"
+#include "WeekTwo.hpp"
 
 int main()
 {
-    WeekOne w1;
+    WeekTwo w2;
     Latex lO;
-    w1.generate_practice_sheet(2, true, 10);
+    w2.generate_practice_sheet(0, false, 10);
 }

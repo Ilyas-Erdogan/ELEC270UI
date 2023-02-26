@@ -1,8 +1,6 @@
 #ifndef WEEKONE_HPP
 #define WEEKONE_HPP
 #include "Week.hpp"
-#include <vector>
-#include <utility>
 
 class WeekOne : public Week
 {

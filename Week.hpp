@@ -2,6 +2,10 @@
 #define WEEK_HPP
 #include "Latex.hpp"
 #include <string>
+#include <vector>
+#include <utility>
+#include <sstream>
+#include <random>
 
 class Week : public Latex
 {
